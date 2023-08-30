@@ -4,6 +4,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import MenuItem from "./MenuItem";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppHooks";
 import { openRegisterModal } from "../../slices/registerModalSlice";
+import { openLoginModal } from "../../slices/loginModalSlice";
 
 import Avatar from "../Avatar";
 const UserMenu = () => {
@@ -14,8 +15,11 @@ const UserMenu = () => {
         setIsOpen((value)=>!value)
     }
 
-    const registermodal = ()=>{
+    const registerModalOpen = ()=>{
         dispatch(openRegisterModal())
+    }
+    const loginModalOpen = ()=>{
+        dispatch(openLoginModal())
     }
 
   return (
@@ -37,12 +41,12 @@ const UserMenu = () => {
                 <div className=" flex flex-col cursor-pointer ">
               
                 <MenuItem
-                onclick={registermodal}
-                label="Register"
+                onclick={loginModalOpen } 
+                label="Login"
                 />
                 <MenuItem
-                onclick={()=>{}}
-                label="my quotes"
+                onclick={registerModalOpen}
+                label="Register"
                 />
                 
 
