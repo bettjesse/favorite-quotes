@@ -1,16 +1,17 @@
-import { FieldErrors}from "react-hook-form"
+import { FieldErrors, FieldValues, UseFormRegister}from "react-hook-form"
+import { FormData } from "../modal/RegisterModal"
 interface InputProps {
     label :string
     type? : string
     id: string
     disabled: boolean
-    // required:boolean
+    required:boolean
     error: FieldErrors;
-
+    register :UseFormRegister<FormData>
 
 }
 
-const Inputs:React.FC<InputProps>= ({label,type= "text",id,disabled, error}) => {
+const Inputs:React.FC<InputProps>= ({label,type= "text",id,disabled, required, error ,register}) => {
   return (
   <div className="  w-full relative">
         <input
@@ -18,7 +19,7 @@ const Inputs:React.FC<InputProps>= ({label,type= "text",id,disabled, error}) => 
         disabled={disabled}
         placeholder=" "
         type= {type}
-        
+        {...register(id as keyof FormData ,{ required})}
         className={`
         peer
         w-full

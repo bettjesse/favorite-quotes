@@ -6,24 +6,47 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Button from "../Button";
 import { closeRegisterModal } from "../../slices/registerModalSlice";
 import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
+import {ZodType, z} from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const RegisterModal = () => {
+export interface FormData {
+    name: string;
+    email: string;
+    password: string;
+  }
+
+ const RegisterModal = () => {
+   
+      
+    const schema: ZodType<FormData> = z.object({
+        name : z.string().min(2).max(30),
+        email: z.string().email(),
+        password: z.string().min(6).max(40)
+
+    })
+    
+
+  const {register, handleSubmit, formState:{errors}}= useForm<FormData>({resolver:zodResolver(schema)})
     const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useAppDispatch()
 
-    const { register, formState: { errors }} = useForm<FieldValues>({
-        defaultValues: { name: "", email: "", password: "" },
-      });
+    // const { register, formState: { errors }} = useForm<FieldValues>({
+    //     defaultValues: { name: "", email: "", password: "" },
+    //   });
 
       const  handleOnClose = ()=>{
    dispatch(closeRegisterModal())
       }
 
-      const handleSubmit = ()=>{
-        setIsLoading(true)
-      }
+    //   const handleSubmit = ()=>{
+    //     setIsLoading(true)
+    //   }
       const isRegisterModalOpen = useAppSelector((state)=> state.toggleRegisterModal.isRegisterModalOpen)
+
+      const onSubmit= (user:FormData)=> {
+     console.log("data", user)
+        }
     const bodyContent = (
         <div className=" flex flex-col gap-4">
     <Header
@@ -35,7 +58,8 @@ const RegisterModal = () => {
     id= "email"
     label="Email"
     disabled={isLoading}
-
+    register={register}
+     required
     error={errors}
 
     />
@@ -43,7 +67,8 @@ const RegisterModal = () => {
     id= "name"
     label="Name"
     disabled={isLoading}
-   
+   register={register}
+   required
     error={errors}
 
     />
@@ -52,7 +77,8 @@ const RegisterModal = () => {
     type="password"
     label="Password"
     disabled={isLoading}
-  
+    register={register}
+    required
     error={errors}
     
     />
@@ -64,7 +90,7 @@ const RegisterModal = () => {
         <div className= "flex flex-col gap-4 mt-3">
          <hr/>
          <Button
-         outline
+         outline 
          label="continue with Google"
         //  icon={FcGoogle}
         //  onClick={()=>signIn("goggle")}
@@ -85,7 +111,7 @@ const RegisterModal = () => {
         isOpen={isRegisterModalOpen}
         title="Register"
         onClose={handleOnClose }
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         actionLabel={`${isLoading ? "loading" : "continue"}`}
         body={bodyContent}
         footer={footerContent}
