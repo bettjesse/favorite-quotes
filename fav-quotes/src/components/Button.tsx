@@ -1,7 +1,7 @@
 
 interface ButtonProps {
     label: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick? : (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
@@ -12,7 +12,7 @@ const Button: React.FC<ButtonProps> = ({
     label,onClick, disabled,outline,small
 }) => {
   return (
-    <div>
+  
         <button
         onClick={onClick}
         disabled={disabled}
@@ -40,7 +40,7 @@ const Button: React.FC<ButtonProps> = ({
    {label}
         </button>
         
-    </div>
+
   )
 }
 
