@@ -2,21 +2,23 @@ import Header from "../Header";
 import Inputs from "../inputs/Inputs";
 import Modal from "./Modal";
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import Button from "../Button";
 import { closeRegisterModal } from "../../slices/registerModalSlice";
 import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
 import {ZodType, z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRegisterMutation } from "../../slices/useApiSlice";
 
 export interface FormData {
-    name: string;
+    name?: string;
     email: string;
     password: string;
   }
 
  const RegisterModal = () => {
    
+  const [registerUser, { isLoading, isError,  }] = useRegisterMutation();
       
     const schema: ZodType<FormData> = z.object({
         name : z.string().min(2).max(30),
@@ -27,7 +29,7 @@ export interface FormData {
     
 
   const {register, handleSubmit, formState:{errors}}= useForm<FormData>({resolver:zodResolver(schema)})
-    const [isLoading, setIsLoading] = useState(false);
+    
 
     const dispatch = useAppDispatch()
 
@@ -44,8 +46,18 @@ export interface FormData {
     //   }
       const isRegisterModalOpen = useAppSelector((state)=> state.toggleRegisterModal.isRegisterModalOpen)
 
-      const onSubmit= (user:FormData)=> {
-     console.log("data", user)
+      const onSubmit= async(user:FormData)=> {
+        try {
+          const res = await registerUser(user).unwrap();
+          console.log("data", user)
+          console.log("response ", res)
+        }
+        catch(err){
+          console.log("err",err)
+          console.log("isError" ,isError)
+
+        }
+    
         }
     const bodyContent = (
         <div className=" flex flex-col gap-4">

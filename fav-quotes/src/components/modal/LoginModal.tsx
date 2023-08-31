@@ -2,29 +2,53 @@ import Header from "../Header";
 import Inputs from "../inputs/Inputs";
 import Modal from "./Modal";
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import Button from "../Button";
-import { closeRegisterModal } from "../../slices/registerModalSlice";
-import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
-import { closeLoginModal } from "../../slices/loginModalSlice";
 
-const  LoginModal = () => {
+import { closeLoginModal } from "../../slices/loginModalSlice";
+import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
+import {ZodType, z} from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormData } from "./RegisterModal";
+
+// export interface FormData {
+//     name?: string;
+//     email: string;
+//     password: string;
+//   }
+
+ const LoginModal = () => {
+   
+      
+    const schema: ZodType<FormData> = z.object({
+        
+        email: z.string().email(),
+        password: z.string().min(6).max(40)
+
+    })
+    
+
+  const {register, handleSubmit, formState:{errors}}= useForm<FormData>({resolver:zodResolver(schema)})
     const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useAppDispatch()
 
-    const { register, formState: { errors }} = useForm<FieldValues>({
-        defaultValues: { name: "", email: "", password: "" },
-      });
+    // const { register, formState: { errors }} = useForm<FieldValues>({
+    //     defaultValues: { name: "", email: "", password: "" },
+    //   });
 
       const  handleOnClose = ()=>{
    dispatch(closeLoginModal())
       }
 
-      const handleSubmit = ()=>{
-        setIsLoading(true)
-      }
-   const isLoginModalOpen = useAppSelector((state)=> state.toggleLoginModal.isLoginModalOpen)
+    //   const handleSubmit = ()=>{
+    //     setIsLoading(true)
+    //   }
+      const isLoginModalOpen = useAppSelector((state)=> state.toggleLoginModal.isLoginModalOpen)
+
+      const onSubmit= (user:FormData)=> {
+     console.log("data", user)
+        }
     const bodyContent = (
         <div className=" flex flex-col gap-4">
     <Header
@@ -36,7 +60,8 @@ const  LoginModal = () => {
     id= "email"
     label="Email"
     disabled={isLoading}
-
+    register={register}
+     required
     error={errors}
 
     />
@@ -46,7 +71,8 @@ const  LoginModal = () => {
     type="password"
     label="Password"
     disabled={isLoading}
-  
+    register={register}
+    required
     error={errors}
     
     />
@@ -58,15 +84,15 @@ const  LoginModal = () => {
         <div className= "flex flex-col gap-4 mt-3">
          <hr/>
          <Button
-         outline
+         outline 
          label="continue with Google"
         //  icon={FcGoogle}
         //  onClick={()=>signIn("goggle")}
          />
          <div className="   text-neutral-500 text-center mt-4 font-light">
           <div className=" justify-center flex flex-row items-center gap-2">
-            <div >Don't have an account? </div>
-            <div className= "hover:underline cursor-pointer text-neutral-800">Register</div>
+            <div >Dont have an account? </div>
+            <div className= "hover:underline cursor-pointer text-neutral-800">Create Account</div>
           </div>
     
          </div>
@@ -79,7 +105,7 @@ const  LoginModal = () => {
         isOpen={isLoginModalOpen}
         title="Login"
         onClose={handleOnClose }
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         actionLabel={`${isLoading ? "loading" : "continue"}`}
         body={bodyContent}
         footer={footerContent}
