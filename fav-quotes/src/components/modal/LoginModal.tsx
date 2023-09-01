@@ -1,7 +1,7 @@
 import Header from "../Header";
 import Inputs from "../inputs/Inputs";
 import Modal from "./Modal";
-import { useState } from "react";
+
 import {  useForm } from "react-hook-form";
 import Button from "../Button";
 
@@ -10,6 +10,8 @@ import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
 import {ZodType, z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData } from "./RegisterModal";
+import { useLoginMutation } from "../../slices/useApiSlice";
+import { setCredentials } from "../../slices/authSlice";
 
 // export interface FormData {
 //     name?: string;
@@ -29,25 +31,29 @@ import { FormData } from "./RegisterModal";
     
 
   const {register, handleSubmit, formState:{errors}}= useForm<FormData>({resolver:zodResolver(schema)})
-    const [isLoading, setIsLoading] = useState(false);
+    const [login, {isLoading,isError}] =useLoginMutation()
 
     const dispatch = useAppDispatch()
 
-    // const { register, formState: { errors }} = useForm<FieldValues>({
-    //     defaultValues: { name: "", email: "", password: "" },
-    //   });
+    
 
       const  handleOnClose = ()=>{
    dispatch(closeLoginModal())
       }
 
-    //   const handleSubmit = ()=>{
-    //     setIsLoading(true)
-    //   }
       const isLoginModalOpen = useAppSelector((state)=> state.toggleLoginModal.isLoginModalOpen)
 
-      const onSubmit= (user:FormData)=> {
-     console.log("data", user)
+      const onSubmit= async(user:FormData)=> {
+      try {
+     const loginResponse = await login(user).unwrap()
+     dispatch(setCredentials({...loginResponse}))
+
+     console.log(loginResponse)
+      }
+      catch(error){
+        console.log(error)
+      }
+
         }
     const bodyContent = (
         <div className=" flex flex-col gap-4">

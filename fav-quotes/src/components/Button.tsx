@@ -5,6 +5,7 @@ interface ButtonProps {
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
+
   
 
 }
@@ -32,6 +33,7 @@ const Button: React.FC<ButtonProps> = ({
       
       ${small ? "font-light" : "font-semibold"}
       ${small ? "border-[1px]" : "border-2"}
+      
 
 
       `}

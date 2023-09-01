@@ -10,6 +10,7 @@ import Avatar from "../Avatar";
 const UserMenu = () => {
     const [isOpen, setIsOpen] = useState (false)
     const dispatch = useAppDispatch()
+    const userInfo = useAppSelector((state)=> state.auth.userInfo)
 
     const toggleOpen = ()=>{
         setIsOpen((value)=>!value)
@@ -36,10 +37,23 @@ const UserMenu = () => {
 
         </div>
 
-        { isOpen && (
+        { isOpen &&  (
             <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[100%] bg-white overflow-hidden text-sm md:text-xm right-0 top-12">                
                 <div className=" flex flex-col cursor-pointer ">
-              
+              {userInfo? (
+                 <>
+                 <MenuItem
+                 onclick={loginModalOpen } 
+                 label="My quotes"
+                 />
+                 <MenuItem
+                 onclick={registerModalOpen}
+                 label="Logout"
+                 />
+                 </>
+
+              ):(
+                <>
                 <MenuItem
                 onclick={loginModalOpen } 
                 label="Login"
@@ -48,6 +62,10 @@ const UserMenu = () => {
                 onclick={registerModalOpen}
                 label="Register"
                 />
+                </>
+
+              )}
+                
                 
 
                 </div>
