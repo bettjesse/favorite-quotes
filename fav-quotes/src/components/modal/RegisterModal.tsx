@@ -1,10 +1,11 @@
 import Header from "../Header";
 import Inputs from "../inputs/Inputs";
 import Modal from "./Modal";
-import { useState } from "react";
+import { toast } from "react-hot-toast";
 import {  useForm } from "react-hook-form";
 import Button from "../Button";
 import { closeRegisterModal } from "../../slices/registerModalSlice";
+import { openLoginModal } from "../../slices/loginModalSlice";
 import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
 import {ZodType, z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,8 +13,10 @@ import { useRegisterMutation } from "../../slices/useApiSlice";
 
 export interface FormData {
     name?: string;
-    email: string;
-    password: string;
+    email?: string;
+    password?: string;
+    text?: string;
+    author?:string;
   }
 
  const RegisterModal = () => {
@@ -49,8 +52,18 @@ export interface FormData {
       const onSubmit= async(user:FormData)=> {
         try {
           const res = await registerUser(user).unwrap();
-          console.log("data", user)
-          console.log("response ", res)
+          dispatch(closeRegisterModal())
+
+          setTimeout(()=>{
+            toast.success("registered succesfuly login to continue", {
+              duration: 3000, 
+            });
+          },6000)
+        
+         
+          dispatch(openLoginModal())
+
+          
         }
         catch(err){
           console.log("err",err)

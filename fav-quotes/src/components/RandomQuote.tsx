@@ -1,30 +1,32 @@
-import React from "react";
-import { FaQuoteRight } from "react-icons/fa"; // Import the quote icon from Font Awesome
+import { FaQuoteRight } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import Button from "./Button";
+import { useGetMyQuotesQuery } from "../slices/quoteSlice";
 
 const RandomQuote = () => {
-  // Sample quotes for demonstration
-  const sampleQuotes = [
-    "The only way to do great work is to love what you do. - Steve Jobs",
-    "In three words I can sum up everything I've learned about life: it goes on. - Robert Frost",
-    "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
-    "The best way to predict the future is to create it. - Peter Drucker",
-    "Life is really simple, but we insist on making it complicated. - Confucius",
-  ];
+  const { data: myQuotes, isLoading, isError } = useGetMyQuotesQuery();
+  const [randomQuote, setRandomQuote] = useState<{ text: string; author: string }>({
+    text: "",
+    author: "",
+  });
 
-  // Function to get a random quote
-  const getRandomQuote = () => {
-    const randomIndex = Math.floor(Math.random() * sampleQuotes.length);
-    return sampleQuotes[randomIndex];
-  };
-
-  const randomQuote = getRandomQuote();
+  useEffect(() => {
+    if (!isLoading && myQuotes && myQuotes.quotes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * myQuotes.quotes.length);
+      const quote = myQuotes.quotes[randomIndex];
+      setRandomQuote(quote);
+    } else {
+      setRandomQuote({ text: "No favorite quotes yet.", author: "" });
+    }
+  }, [myQuotes, isLoading]);
 
   return (
     <div className="bg-gray-100 p-4 rounded-lg shadow-lg text-center">
       <div className="rounded-lg bg-white p-4 mb-4">
         <FaQuoteRight size={64} className="text-gray-400 mb-2" />
-        <blockquote className="text-4xl italic">{randomQuote}</blockquote>
+        <blockquote className="text-4xl italic">
+          {randomQuote.text} - {randomQuote.author}
+        </blockquote>
       </div>
       <p className="text-lg text-gray-600">
         Create an account to save your favorite quotes and view them anytime!

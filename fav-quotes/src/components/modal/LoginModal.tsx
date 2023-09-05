@@ -13,11 +13,6 @@ import { FormData } from "./RegisterModal";
 import { useLoginMutation } from "../../slices/useApiSlice";
 import { setCredentials } from "../../slices/authSlice";
 
-// export interface FormData {
-//     name?: string;
-//     email: string;
-//     password: string;
-//   }
 
  const LoginModal = () => {
    
@@ -48,7 +43,7 @@ import { setCredentials } from "../../slices/authSlice";
      const loginResponse = await login(user).unwrap()
      dispatch(setCredentials({...loginResponse}))
 
-     console.log(loginResponse)
+     dispatch(closeLoginModal())
       }
       catch(error){
         console.log(error)

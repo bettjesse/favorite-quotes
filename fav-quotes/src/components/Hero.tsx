@@ -1,6 +1,7 @@
-import React from "react";
+
 import Button from "./Button";
 import { openRegisterModal } from "../slices/registerModalSlice";
+import { openQuoteModal } from "../slices/createQuoteModal";
 import { useAppDispatch, useAppSelector } from "../hooks/useAppHooks";
 
 const Hero = () => {
@@ -10,6 +11,9 @@ const Hero = () => {
   const registerModalOpen = () => {
     dispatch(openRegisterModal());
   };
+  const quoteModalOpen = ()=> {
+dispatch(openQuoteModal())
+  }
 
   if (userInfo) {
     // If userInfo exists, render personalized content
@@ -23,7 +27,8 @@ const Hero = () => {
             <div className="mt-4 w-[45%] mx-auto">
               <Button
                 label="Add My Fav Quote"
-                // Add an onClick handler for adding quotes functionality
+                onClick={quoteModalOpen}
+                
               />
             </div>
           </div>
