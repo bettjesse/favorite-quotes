@@ -1,32 +1,52 @@
-import LoginModal from "./components/modal/LoginModal"
-import RegisterModal from "./components/modal/RegisterModal"
-import Navbar from "./components/navbar/Navbar"
-import Hero from "./components/Hero"
-import RandomQuote from "./components/RandomQuote"
-import ToastProvider from "./providers/ToastProvider"
-import CreateQuoteModal from "./components/modal/CreateQuoteModal"
+import LoginModal from "./components/modal/LoginModal";
+import RegisterModal from "./components/modal/RegisterModal";
+import Navbar from "./components/navbar/Navbar";
+import Hero from "./components/Hero";
+import RandomQuote from "./components/RandomQuote";
+import ToastProvider from "./providers/ToastProvider";
+import CreateQuoteModal from "./components/modal/CreateQuoteModal";
+import MyQuotes from "./components/MyQuotes";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Providers } from "./Provider";
 
-
-const App = () => {
- 
+const HomeLayout = () => {
   return (
     <div className="">
-      
-      <Navbar/>
-      <ToastProvider/>
-      
-      <RegisterModal/>
-      <LoginModal/>
-      <CreateQuoteModal/>
-      <div className="pt-[150px]">
-      <Hero/>
-      <RandomQuote/>
-      
+      <Navbar />
+      <ToastProvider />
+      <RegisterModal />
+      <LoginModal />
+      <CreateQuoteModal />
+      <div className="pt-[130px]">
+        <Hero />
+        <RandomQuote />
       </div>
-   
-    
     </div>
-  )
-}
+  );
+};
 
-export default App
+const MyQuotesLayout = () => {
+  return (
+    <div>
+      <Navbar />
+      <div className="pt-[130px]">
+      <MyQuotes />
+      </div>
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Providers>
+        <Routes>
+          <Route path="/" element={<HomeLayout />} />
+          <Route path="/myquotes" element={<MyQuotesLayout />} />
+        </Routes>
+      </Providers>
+    </Router>
+  );
+};
+
+export default App;

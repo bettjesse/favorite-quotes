@@ -3,6 +3,7 @@ import Button from "./Button";
 import { openRegisterModal } from "../slices/registerModalSlice";
 import { openQuoteModal } from "../slices/createQuoteModal";
 import { useAppDispatch, useAppSelector } from "../hooks/useAppHooks";
+import Spinner from "./Spinner";
 
 const Hero = () => {
   const dispatch = useAppDispatch();
@@ -21,10 +22,11 @@ dispatch(openQuoteModal())
       <div className="bg-pink-400 min-h-screen flex justify-center items-center">
         <div className="">
           <div className="text-center p-8">
+            
             <p className="text-white text-2xl md:text-3xl lg:text-4xl font-semibold">
               Welcome back, {userInfo.name}!
             </p>
-            <div className="mt-4 w-[45%] mx-auto">
+            <div className="mt-4 md:w-[45%] mx-auto">
               <Button
                 label="Add My Fav Quote"
                 onClick={quoteModalOpen}

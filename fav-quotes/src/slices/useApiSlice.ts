@@ -37,7 +37,16 @@ const useApiSlice= apiSlice.injectEndpoints({
         credentials: "include"
     
        })
+      }),
+      getUser: builder.query <RegistrationResponse,void>({
+       query: ()=> ({
+        url: '/user', 
+        method: 'GET',
+       
+        credentials: "include"
+    
+       })
       })
     }),
   });
-  export  const {useRegisterMutation, useLoginMutation} = useApiSlice
+  export  const {useRegisterMutation, useLoginMutation, useGetUserQuery} = useApiSlice
