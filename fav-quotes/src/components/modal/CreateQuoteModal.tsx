@@ -47,7 +47,7 @@ import { useNewQuoteMutation } from "../../slices/quoteSlice";
 
      setTimeout(()=>{
         toast.success("quote created succesfully")
-     },6000)
+     },4000)
    
    dispatch(closeQuoteModal())
     

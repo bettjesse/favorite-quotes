@@ -6,6 +6,7 @@ import {  useForm } from "react-hook-form";
 import Button from "../Button";
 import { closeRegisterModal } from "../../slices/registerModalSlice";
 import { openLoginModal } from "../../slices/loginModalSlice";
+
 import { useAppDispatch,useAppSelector } from "../../hooks/useAppHooks";
 import {ZodType, z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +18,7 @@ export interface FormData {
     password?: string;
     text?: string;
     author?:string;
+    id?: string
   }
 
  const RegisterModal = () => {
@@ -47,6 +49,12 @@ export interface FormData {
     //   const handleSubmit = ()=>{
     //     setIsLoading(true)
     //   }
+
+    const loginAccountOpen= ()=> {
+      dispatch(closeRegisterModal())
+      dispatch(openLoginModal())
+
+    }
       const isRegisterModalOpen = useAppSelector((state)=> state.toggleRegisterModal.isRegisterModalOpen)
 
       const onSubmit= async(user:FormData)=> {
@@ -123,7 +131,10 @@ export interface FormData {
          <div className="   text-neutral-500 text-center mt-4 font-light">
           <div className=" justify-center flex flex-row items-center gap-2">
             <div >Already have an account? </div>
-            <div className= "hover:underline cursor-pointer text-neutral-800">Login</div>
+            <div 
+            onClick={loginAccountOpen}
+            
+            className= "hover:underline cursor-pointer text-neutral-800">Login</div>
           </div>
     
          </div>

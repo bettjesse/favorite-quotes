@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData } from "./RegisterModal";
 import { useLoginMutation } from "../../slices/useApiSlice";
 import { setCredentials } from "../../slices/authSlice";
+import { openRegisterModal } from "../../slices/registerModalSlice";
 
 
  const LoginModal = () => {
@@ -30,7 +31,16 @@ import { setCredentials } from "../../slices/authSlice";
 
     const dispatch = useAppDispatch()
 
-    
+    const registerModalOpen = ()=>{
+
+      
+
+         dispatch(closeLoginModal())
+        dispatch(openRegisterModal())
+      
+     
+
+    }
 
       const  handleOnClose = ()=>{
    dispatch(closeLoginModal())
@@ -84,16 +94,20 @@ import { setCredentials } from "../../slices/authSlice";
       const footerContent = (
         <div className= "flex flex-col gap-4 mt-3">
          <hr/>
-         <Button
+         {/* <Button
          outline 
          label="continue with Google"
         //  icon={FcGoogle}
         //  onClick={()=>signIn("goggle")}
-         />
+         /> */}
          <div className="   text-neutral-500 text-center mt-4 font-light">
           <div className=" justify-center flex flex-row items-center gap-2">
             <div >Dont have an account? </div>
-            <div className= "hover:underline cursor-pointer text-neutral-800">Create Account</div>
+            
+            <div
+            onClick={registerModalOpen}
+             className= "hover:underline cursor-pointer text-neutral-800">Create Account</div>
+            
           </div>
     
          </div>

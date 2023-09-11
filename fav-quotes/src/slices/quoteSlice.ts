@@ -3,8 +3,10 @@ import { FormData } from "../components/modal/RegisterModal";
 
 // Define the Quote type
 interface Quote {
+  _id?: string;
   text: string;
   author: string;
+  createdAt?: string;
  
 }
 
@@ -12,6 +14,7 @@ interface Quote {
 interface QuoteResponse {
   text: string;
   author: string;
+  _id? : string
   
 }
 
@@ -37,7 +40,22 @@ const quoteSlice = apiSlice.injectEndpoints({
         credentials: "include", 
       }),
     }),
+    getMyQuotesById: builder.query<Quote,  string>({
+      query: (id) => ({
+        url: `/quotes/${id}`,
+        method: "GET",
+        credentials: "include", 
+      }),
+    }),
+    updateQuote: builder.mutation<Quote, {id: string, data:Quote}>({
+      query: ({id,data}) => ({
+        url: `/quotes/${id}`,
+        method: "PUT",
+        credentials: "include", 
+        body: data
+      }),
+    }),
   }),
 });
 
-export const { useNewQuoteMutation, useGetMyQuotesQuery } = quoteSlice;
+export const { useNewQuoteMutation, useGetMyQuotesQuery,useGetMyQuotesByIdQuery, useUpdateQuoteMutation } = quoteSlice;

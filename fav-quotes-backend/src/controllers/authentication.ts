@@ -37,6 +37,19 @@ export const login = async (req: express.Request, res: express.Response) => {
   }
 };
 
+export const logout = async (req: express.Request, res: express.Response) => {
+  try {
+   
+    res.clearCookie('QUOTECUBE-AUTH', { domain: 'localhost', path: '/' });
+
+    return res.sendStatus(200); // Successfully logged out
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500); // Internal server error
+  }
+};
+
+
 export const register = async (req: express.Request, res: express.Response) => {
     try {
       const { email, password, name } = req.body;

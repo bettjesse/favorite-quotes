@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { createQuote,  } from '../db/quotes'; // Replace with the correct path to your quote model
 import { getQuotes } from '../db/quotes';
 import { getUserById } from '../db/users';
+import { getQuoteById } from '../db/quotes';
 import express from "express"
 
 
@@ -55,3 +56,46 @@ export const myQuotes = async (req: CustomRequest, res: express.Response)=> {
 
    }
 }
+
+export const getQuotesById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params; // Extract the quote ID from the URL parameter
+    const quote = await getQuoteById(id); // Use the function from your database layer to retrieve the quote
+
+    if (!quote) {
+      return res.sendStatus(404); // Quote not found
+    }
+
+    return res.status(200).json(quote);
+  } catch (error) {
+    console.error('Error getting quote by ID:', error);
+    return res.sendStatus(500); // Internal Server Error
+  }
+};
+
+export const updateQuote = async (req: express.Request, res: express.Response) => {
+  try {
+    const { id } = req.params; // Extract the quote ID from the URL parameter
+    const { text, author } = req.body; // Extract updated text and author from the request body
+
+    // Retrieve the quote by ID
+    const quote = await getQuoteById(id);
+
+    if (!quote) {
+      return res.sendStatus(404); // Quote not found
+    }
+
+    
+    // Update the quote properties
+    quote.text = text || quote.text; // Update text if provided, otherwise keep the existing value
+    quote.author = author || quote.author; // Update author if provided, otherwise keep the existing value
+
+    // Save the updated quote to the database
+    await quote.save();
+
+    return res.status(200).json(quote);
+  } catch (error) {
+    console.error('Error updating quote:', error);
+    return res.sendStatus(500); // Internal Server Error
+  }
+};

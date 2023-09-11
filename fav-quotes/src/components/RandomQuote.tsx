@@ -58,7 +58,7 @@ const RandomQuote = () => {
                 <p>You don't have any saved quotes yet.</p>
                 <p>Discover inspiration and add your favorite quotes.</p>
                 {/* You can add a CTA button to encourage quote creation */}
-                <div className="md:mx-auto md:w-[45%]">
+                <div className="md:mx-auto md:w-[25%]">
                 <Button label="Add a Quote" onClick={quoteModalOpen} />
                 </div>
               </div>

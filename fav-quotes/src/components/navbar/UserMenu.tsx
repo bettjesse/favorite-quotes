@@ -3,14 +3,19 @@ import {useState} from "react"
 import { AiOutlineMenu } from "react-icons/ai";
 import MenuItem from "./MenuItem";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppHooks";
+import { clearCredentials } from "../../slices/authSlice";
 import { openRegisterModal } from "../../slices/registerModalSlice";
 import { openLoginModal } from "../../slices/loginModalSlice";
+import { useLogoutMutation } from "../../slices/useApiSlice";
 
 import Avatar from "../Avatar";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 const UserMenu = () => {
     const [isOpen, setIsOpen] = useState (false)
     const dispatch = useAppDispatch()
     const userInfo = useAppSelector((state)=> state.auth.userInfo)
+    const [logoutMutation,{ isError, isLoading  }] = useLogoutMutation()
 
     const toggleOpen = ()=>{
         setIsOpen((value)=>!value)
@@ -23,6 +28,18 @@ const UserMenu = () => {
         dispatch(openLoginModal())
     }
 
+
+    const handleLogout = async()=> {
+      try {
+        await logoutMutation()
+        dispatch(clearCredentials())
+        toast.success("logout succesfully")
+
+      } catch (error){
+     toast.error("logout error" )
+      }
+ 
+    }
   return (
     <div className="relative">
         <div className="flex flex-row items-center gap-3">
@@ -42,12 +59,15 @@ const UserMenu = () => {
                 <div className=" flex flex-col cursor-pointer ">
               {userInfo? (
                  <>
+                 <Link to= "/myquotes">
                  <MenuItem
-                 onclick={loginModalOpen } 
+                 onclick={()=>{} } 
                  label="My quotes"
+                
                  />
+                 </Link>
                  <MenuItem
-                 onclick={registerModalOpen}
+                 onclick={handleLogout}
                  label="Logout"
                  />
                  </>

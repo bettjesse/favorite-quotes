@@ -22,7 +22,10 @@ export const createQuote = async (values: Record<string, any>) => {
       throw error; // You can handle the error here or let it propagate to the calling function
     }
   };
-  
+ 
+
+export const getQuoteById = (id: string) => QuoteModel.findById(id);
+
 
 
 export const getQuotes = (filter: Record<string, any>) => QuoteModel.find(filter);

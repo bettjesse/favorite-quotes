@@ -6,6 +6,8 @@ import RandomQuote from "./components/RandomQuote";
 import ToastProvider from "./providers/ToastProvider";
 import CreateQuoteModal from "./components/modal/CreateQuoteModal";
 import MyQuotes from "./components/MyQuotes";
+import QuoteDetail from "./components/QuoteDetail";
+import EditQuoteModal from "./components/modal/EditQuoteModal";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Providers } from "./Provider";
 
@@ -17,6 +19,7 @@ const HomeLayout = () => {
       <RegisterModal />
       <LoginModal />
       <CreateQuoteModal />
+    
       <div className="pt-[130px]">
         <Hero />
         <RandomQuote />
@@ -35,6 +38,17 @@ const MyQuotesLayout = () => {
     </div>
   );
 };
+const QuoteDetailLayout = ()=>{
+  return (
+    <div>
+      <Navbar />
+      <div className="pt-[130px]">
+      <QuoteDetail/>
+      <EditQuoteModal/>
+      </div>
+    </div>
+  )
+}
 
 const App = () => {
   return (
@@ -43,9 +57,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomeLayout />} />
           <Route path="/myquotes" element={<MyQuotesLayout />} />
+          <Route path="/quote/:id" element={<QuoteDetailLayout/>} /> 
         </Routes>
       </Providers>
-    </Router>
+    </Router>  
   );
 };
 
