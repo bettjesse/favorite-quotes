@@ -9,7 +9,7 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    origin: "https://fav-quotes-server.onrender.com",
+    origin: "https://quotes-0a4v.onrender.com",
     credentials: true
     
 }))
