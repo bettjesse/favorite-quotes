@@ -28,8 +28,9 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     await user.save();
 
-    res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, { domain: 'https://quotes-0a4v.onrender.com', path: '/' });
+    res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, { domain: 'quotes-0a4v.onrender.com', path: '/' });
 
+                                                                            
     return res.status(200).json(user).end();
   } catch (error) {
     console.log(error);
