@@ -28,7 +28,13 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     await user.save();
 
-    res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, { domain: 'quotes-0a4v.onrender.com', path: '/' });
+    res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, {
+     
+      path: '/',
+      secure: true, // Ensure it's only sent over HTTPS
+    
+    });
+    
 
                                                                             
     return res.status(200).json(user).end();
@@ -41,7 +47,7 @@ export const login = async (req: express.Request, res: express.Response) => {
 export const logout = async (req: express.Request, res: express.Response) => {
   try {
    
-    res.clearCookie('QUOTECUBE-AUTH', { domain: 'https://quotes-0a4v.onrender.com', path: '/' });
+    res.clearCookie('QUOTECUBE-AUTH', {  path: '/' });
 
     return res.sendStatus(200); // Successfully logged out
   } catch (error) {
