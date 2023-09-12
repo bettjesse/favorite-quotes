@@ -30,7 +30,7 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, {
       path: '/',
-     
+     secure: true,
       sameSite: 'none', // Allow cross-origin usage
     });
     
