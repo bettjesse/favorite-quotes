@@ -29,11 +29,9 @@ export const login = async (req: express.Request, res: express.Response) => {
     await user.save();
 
     res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, {
-     
       path: '/',
-       // Ensure it's only sent over HTTPS
-    
-    
+     
+      sameSite: 'none', // Allow cross-origin usage
     });
     
 
