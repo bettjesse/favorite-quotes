@@ -31,7 +31,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     res.cookie('QUOTECUBE-AUTH', user.authentication.sessionToken, {
      
       path: '/',
-      secure: true, // Ensure it's only sent over HTTPS
+       // Ensure it's only sent over HTTPS
     
     
     });
