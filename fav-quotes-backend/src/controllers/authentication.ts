@@ -32,7 +32,7 @@ export const login = async (req: express.Request, res: express.Response) => {
      
       path: '/',
       secure: true, // Ensure it's only sent over HTTPS
-      domain: 'https://quotes-0a4v.onrender.com',
+      domain: 'quotes-0a4v.onrender.com',
     
     });
     
